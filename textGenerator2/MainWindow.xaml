@@ -1,0 +1,20 @@
+﻿<Window x:Class="textGenerator2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:textGenerator2"
+        mc:Ignorable="d"
+        Title="Генератор текста" Height="450" Width="403">
+    <Grid>
+        <Label x:Name="Warning" Grid.Column="1" Content="" HorizontalAlignment="Center" Margin="0,281,0,0" VerticalAlignment="Top" Foreground="Red" />
+        <TextBlock x:Name="FolderPath" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center"/>
+        <Label x:Name="Result" HorizontalAlignment="Center" Margin="0,374,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Button x:Name="Generate" Grid.Column="1" Content="Сгенерировать" HorizontalAlignment="Center" Margin="0,323,0,0" VerticalAlignment="Top" IsEnabled="False" Click="Generate_Click"/>
+        <TextBox x:Name="Min" HorizontalAlignment="Center" Margin="0,73,0,0" TextWrapping="Wrap" Text="Укажите минимальное кол-во слов" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" MouseDoubleClick="ClearText" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting"/>
+        <TextBox x:Name="Max" HorizontalAlignment="Center" Margin="0,112,0,0" TextWrapping="Wrap" Text="Укажите максимальное кол-во слов" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" MouseDoubleClick="ClearText" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting"/>
+        <TextBox x:Name="FileCount" HorizontalAlignment="Center" Margin="0,154,0,0" TextWrapping="Wrap" Text="Укажите кол-во файлов, которое нужно создать" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" MouseDoubleClick="ClearText" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting"/>
+        <Button x:Name="ChooseFolder" Content="Выбрать папку" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Click="ChooseFolder_Click"/>
+
+    </Grid>
+</Window>
