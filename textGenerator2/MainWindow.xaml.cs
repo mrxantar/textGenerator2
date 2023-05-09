@@ -6,16 +6,8 @@ using System.Windows.Input;
 using Xceed.Words.NET;
 using System.Windows.Threading;
 using System.IO;
-using System.Threading;
-using Xceed.Document.NET;
-using System.Globalization;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Diagnostics.Tracing;
 using Microsoft.Win32;
-using System.Runtime.CompilerServices;
 
 namespace textGenerator2
 {
@@ -82,7 +74,6 @@ namespace textGenerator2
             }
         }
 
-
         private void ClearText(object sender, RoutedEventArgs e)
         {
             TextBox textbox = e.Source as TextBox;
@@ -90,24 +81,20 @@ namespace textGenerator2
             textbox.Clear();
         }
 
-
         private static bool IsTextAllowed(string text)
         {
             return !onlyNumbers.IsMatch(text);
         }
-
 
         private void ContentChanged(object sender, TextChangedEventArgs e)
         {
             InputCheck();
         }
 
-
         private void PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
         }
-
 
         private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
         {
@@ -124,7 +111,6 @@ namespace textGenerator2
                 e.CancelCommand();
             }
         }
-
 
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -145,36 +131,32 @@ namespace textGenerator2
             return str;
         }
 
-
         private void Generate_Click(object sender, RoutedEventArgs e)
         {
             string[] wordDict = File.ReadAllLines(FilePath.Text);
+            var folderPath = FolderPath.Text.ToString();
 
             DispatcherTimer timer = new ();
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0, 0, 2);
 
-            var folderPath = FolderPath.Text.ToString();
             int min = int.Parse(Min.Text);
             int max = int.Parse(Max.Text);
-            int size = wordDict.Length / 4;
+            int count = int.Parse(FileCount.Text);
 
             Random random = new();
 
-            int count = int.Parse(FileCount.Text);
-            
-            
             try
             {
                 for (int i = 0; i < count; i++)
                 {
-                    
                     int wordCount = random.Next(min, max + 1);
+                    int quarter = wordCount / 4;
 
-                    string[] str1 = new string[wordCount / 4];
-                    string[] str2 = new string[wordCount / 4];
-                    string[] str3 = new string[wordCount / 4];
-                    string[] str4 = new string[wordCount / 4];
+                    string[] str1 = new string[quarter];
+                    string[] str2 = new string[quarter];
+                    string[] str3 = new string[quarter];
+                    string[] str4 = new string[quarter];
 
                     string fileName = $"Document{i}. Word count - {wordCount}.docx";
                     var document = DocX.Create(folderPath + "\\" + fileName);
@@ -190,12 +172,10 @@ namespace textGenerator2
                     task3.Wait();
                     task4.Wait();
 
-
                     ResultString = String.Concat(str1);
                     ResultString += String.Concat(str2);
                     ResultString += String.Concat(str3);
                     ResultString += String.Concat(str4);
-
 
                     if (wordCount % 4 > 0) 
                     {
@@ -204,8 +184,6 @@ namespace textGenerator2
                             ResultString = String.Concat(ResultString, wordDict[random.Next(0, wordDict.Length)] + separators[random.Next(0, separators.Length)]);
                         }
                     }
-
-                    
 
                     paragraph.Append(ResultString);
                     document.Save();
@@ -220,7 +198,6 @@ namespace textGenerator2
                 Warning.Content = "Файл с таким именем открыт в другой программе. Закройте этот файл и повторите попытку";
             }
         }
-
 
         private void ChooseFolder_Click(object sender, RoutedEventArgs e)
         {
@@ -247,7 +224,5 @@ namespace textGenerator2
                 InputCheck();
             }
         }
-
-        
     }
 }
