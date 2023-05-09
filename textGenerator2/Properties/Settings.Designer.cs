@@ -22,5 +22,29 @@ namespace textGenerator2.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prevFilePath {
+            get {
+                return ((string)(this["prevFilePath"]));
+            }
+            set {
+                this["prevFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prevFolderPath {
+            get {
+                return ((string)(this["prevFolderPath"]));
+            }
+            set {
+                this["prevFolderPath"] = value;
+            }
+        }
     }
 }

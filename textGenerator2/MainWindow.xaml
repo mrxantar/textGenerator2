@@ -5,16 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:textGenerator2"
         mc:Ignorable="d"
-        Title="Генератор текста" Height="450" Width="403">
+        Title="Генератор текста" Height="469" Width="742">
     <Grid>
-        <Label x:Name="Warning" Grid.Column="1" Content="" HorizontalAlignment="Center" Margin="0,281,0,0" VerticalAlignment="Top" Foreground="Red" />
+        <Label x:Name="Warning" Content="" HorizontalAlignment="Center" Margin="0,321,0,0" VerticalAlignment="Top" Foreground="Red" />
         <TextBlock x:Name="FolderPath" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center"/>
-        <Label x:Name="Result" HorizontalAlignment="Center" Margin="0,374,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-        <Button x:Name="Generate" Grid.Column="1" Content="Сгенерировать" HorizontalAlignment="Center" Margin="0,323,0,0" VerticalAlignment="Top" IsEnabled="False" Click="Generate_Click"/>
-        <TextBox x:Name="Min" HorizontalAlignment="Center" Margin="0,73,0,0" TextWrapping="Wrap" Text="Укажите минимальное кол-во слов" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" MouseDoubleClick="ClearText" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting"/>
-        <TextBox x:Name="Max" HorizontalAlignment="Center" Margin="0,112,0,0" TextWrapping="Wrap" Text="Укажите максимальное кол-во слов" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" MouseDoubleClick="ClearText" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting"/>
-        <TextBox x:Name="FileCount" HorizontalAlignment="Center" Margin="0,154,0,0" TextWrapping="Wrap" Text="Укажите кол-во файлов, которое нужно создать" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" MouseDoubleClick="ClearText" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting"/>
-        <Button x:Name="ChooseFolder" Content="Выбрать папку" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Click="ChooseFolder_Click"/>
+        <TextBlock x:Name="FilePath" HorizontalAlignment="Center" Margin="0,283,0,0" VerticalAlignment="Top" TextWrapping="Wrap" TextAlignment="Center"/>
+        <Label x:Name="Result" Content="" HorizontalAlignment="Center" Margin="0,388,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Generate" Content="Сгенерировать" HorizontalAlignment="Center" Margin="0,363,0,0" VerticalAlignment="Top" IsEnabled="False" Click="Generate_Click"/>
+        <TextBox x:Name="Min" HorizontalAlignment="Center" Margin="0,73,0,0" TextWrapping="Wrap" Text="Укажите минимальное кол-во слов" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting" GotFocus="ClearText"/>
+        <TextBox x:Name="Max" HorizontalAlignment="Center" Margin="0,112,0,0" TextWrapping="Wrap" Text="Укажите максимальное кол-во слов" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting" GotFocus="ClearText"/>
+        <TextBox x:Name="FileCount" HorizontalAlignment="Center" Margin="0,154,0,0" TextWrapping="Wrap" Text="Укажите кол-во файлов, которое нужно создать" VerticalAlignment="Top" Width="206" Grid.Column="1" HorizontalContentAlignment="Center" PreviewTextInput="PreviewTextInput" TextChanged="ContentChanged" DataObject.Pasting="TextBoxPasting" GotFocus="ClearText"/>
+        <Button x:Name="ChooseFolder" Content="Выбрать папку" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ChooseFolder_Click" Margin="268,0,0,0"/>
+        <Button x:Name="ChooseFile" Content="Выбрать файл" Margin="0,0,268,0" Click="ChooseFile_Click" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right" Width="81"/>
+
 
     </Grid>
 </Window>

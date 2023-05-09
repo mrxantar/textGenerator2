@@ -14,6 +14,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Diagnostics.Tracing;
+using Microsoft.Win32;
+using System.Runtime.CompilerServices;
 
 namespace textGenerator2
 {
@@ -29,12 +31,11 @@ namespace textGenerator2
         public MainWindow()
         {
             InitializeComponent();
+            FilePath.Text = Properties.Settings.Default.prevFilePath;
+            FolderPath.Text = Properties.Settings.Default.prevFolderPath;
         }
 
         string[] separators = new string[] { ", ", ". ", "! ", " ", "? " };
-        string[] wordDict = File.ReadAllLines(Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory), "RUS.txt"));
-
-        
 
         private static readonly Regex onlyNumbers = new Regex("[^0-9]+");
 
@@ -56,9 +57,15 @@ namespace textGenerator2
                     Generate.IsEnabled = false;
                     return;
                 }
-                else if (FolderPath.Text == null)
+                else if (FolderPath.Text == "")
                 {
                     Warning.Content = "Вы не выбрали папку для сохранения";
+                    Generate.IsEnabled = false;
+                    return;
+                }
+                else if (FilePath.Text == "")
+                {
+                    Warning.Content = "Вы не выбрали файл со словами";
                     Generate.IsEnabled = false;
                     return;
                 }
@@ -76,7 +83,7 @@ namespace textGenerator2
         }
 
 
-        private void ClearText(object sender, MouseButtonEventArgs e)
+        private void ClearText(object sender, RoutedEventArgs e)
         {
             TextBox textbox = e.Source as TextBox;
             if (textbox == null) return;
@@ -126,7 +133,7 @@ namespace textGenerator2
             timer.Stop();
         }
 
-        private string[] GenerateString(int wordCount, string[] str)
+        private string[] GenerateString(int wordCount, string[] str, string[] wordDict)
         {
 
             Random random = new Random();
@@ -141,18 +148,16 @@ namespace textGenerator2
 
         private void Generate_Click(object sender, RoutedEventArgs e)
         {
-            
+            string[] wordDict = File.ReadAllLines(FilePath.Text);
+
             DispatcherTimer timer = new ();
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Interval = new TimeSpan(0, 0, 2);
 
             var folderPath = FolderPath.Text.ToString();
             int min = int.Parse(Min.Text);
             int max = int.Parse(Max.Text);
             int size = wordDict.Length / 4;
-
-            
-
 
             Random random = new();
 
@@ -175,10 +180,10 @@ namespace textGenerator2
                     var document = DocX.Create(folderPath + "\\" + fileName);
                     var paragraph = document.InsertParagraph();
 
-                    Task task1 = Task.Factory.StartNew(() => { str1 = GenerateString(wordCount, str1); });
-                    Task task2 = Task.Factory.StartNew(() => { str2 = GenerateString(wordCount, str2); });
-                    Task task3 = Task.Factory.StartNew(() => { str3 = GenerateString(wordCount, str3); });
-                    Task task4 = Task.Factory.StartNew(() => { str4 = GenerateString(wordCount, str4); });
+                    Task task1 = Task.Factory.StartNew(() => { str1 = GenerateString(wordCount, str1, wordDict); });
+                    Task task2 = Task.Factory.StartNew(() => { str2 = GenerateString(wordCount, str2, wordDict); });
+                    Task task3 = Task.Factory.StartNew(() => { str3 = GenerateString(wordCount, str3, wordDict); });
+                    Task task4 = Task.Factory.StartNew(() => { str4 = GenerateString(wordCount, str4, wordDict); });
                     
                     task1.Wait();
                     task2.Wait();
@@ -223,8 +228,26 @@ namespace textGenerator2
             if (openFileDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 FolderPath.Text = openFileDlg.SelectedPath;
+                Properties.Settings.Default.prevFolderPath = openFileDlg.SelectedPath;
+                Properties.Settings.Default.Save();
                 InputCheck();
             }
         }
+
+        private void ChooseFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Выберите исходный файл со словами. Убедитесь, что он сохранён в кодировке UTF-8";
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true) 
+            {
+                FilePath.Text = openFileDialog.FileName;
+                Properties.Settings.Default.prevFilePath = openFileDialog.FileName;
+                Properties.Settings.Default.Save();
+                InputCheck();
+            }
+        }
+
+        
     }
 }
